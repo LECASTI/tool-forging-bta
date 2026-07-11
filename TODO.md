@@ -9,6 +9,9 @@
     - `[ ]` Fix GUI interaction (currently behaves like furnace instead of button)
     - `[ ]` Dynamic recipe requirement based on tool material
 - `[ ]` Subtask 6: Final tests
+- `[ ]` Subtask 7: Recipe rebalancing
+- `[ ]` Subtask 8: Models
+- `[ ]` Subtask 9: GUI textures
 
 ## Notes for Tomorrow
 - **Balancing:** Review stat multipliers. Dreadful should probably be 50% durability, but 20% damage, for example. Perfect should feel truly "perfect" (maybe more than 150%).
