@@ -16,22 +16,22 @@ public class ToolForgingMod implements ModInitializer, GameStartEntrypoint, Reci
 	@Override
 	public void onInitialize() {
 		LOGGER.info("ToolForgingMod initialized.");
-		
 		turniplabs.halplibe.helper.network.NetworkHandler.registerNetworkMessage(toolforging.network.OpenReforgingAnvilMessage::new);
-		
+
 		int blockId = 2000; // Hardcoded ID for now
 		reforgingAnvil = new turniplabs.halplibe.helper.BlockBuilder(MOD_ID)
 			.setHardness(5.0f)
 			.setResistance(2000.0f)
-			//.setTextures("reforging_anvil.png") // We can add texture later
-			.build("reforging_anvil", blockId, b -> new toolforging.block.BlockLogicReforgingAnvil(b, net.minecraft.core.block.material.Materials.METAL));
+			.setTags(net.minecraft.core.block.tag.BlockTags.MINEABLE_BY_PICKAXE)
+			.setTileEntity(toolforging.block.entity.TileEntityReforgingAnvil::new)
+			.build("reforging.anvil", blockId, b -> new toolforging.block.BlockLogicReforgingAnvil(b, net.minecraft.core.block.material.Materials.METAL));
 			
 		net.minecraft.core.net.command.CommandManager.registerCommand(new toolforging.command.CommandTier());
 	}
 
 	@Override
 	public void beforeGameStart() {
-
+		turniplabs.halplibe.helper.EntityHelper.addMapping(toolforging.block.entity.TileEntityReforgingAnvil.class, new net.minecraft.core.util.collection.NamespaceID(MOD_ID, "reforging_anvil"));
 	}
 
 	@Override
@@ -41,7 +41,10 @@ public class ToolForgingMod implements ModInitializer, GameStartEntrypoint, Reci
 
 	@Override
 	public void onRecipesReady() {
-
+		turniplabs.halplibe.helper.RecipeBuilder.Shaped(MOD_ID)
+			.setShape("LL", "LL")
+			.addInput('L', "minecraft:logs")
+			.create("reforging_anvil", new net.minecraft.core.item.ItemStack(reforgingAnvil));
 	}
 
 	@Override

@@ -21,21 +21,34 @@ public class ItemStackMixin {
         return 0;
     }
 
-    private float getTierMultiplier(int tier) {
+    private float getDamageSpeedMultiplier(int tier) {
         switch (tier) {
-            case -3: return 0.50f;
-            case -2: return 0.75f;
-            case -1: return 0.90f;
-            case 1: return 1.10f;
-            case 2: return 1.20f;
-            case 3: return 1.50f;
+            case -3: return 0.25f;
+            case -2: return 0.50f;
+            case -1: return 0.80f;
+            case 1: return 1.25f;
+            case 2: return 1.75f;
+            case 3: return 3.00f;
             default: return 1.00f;
         }
     }
 
-    private float applyTierRounding(float value, int tier) {
+    private float getDurabilityMultiplier(int tier) {
+        switch (tier) {
+            case -3: return 0.25f;
+            case -2: return 0.50f;
+            case -1: return 0.80f;
+            case 1: return 1.25f;
+            case 2: return 1.75f;
+            case 3: return 3.00f;
+            default: return 1.00f;
+        }
+    }
+
+    private float applyTierRounding(float value, int tier, boolean isDurability) {
         if (tier == 0) return value;
-        float multiplied = value * getTierMultiplier(tier);
+        float multiplier = isDurability ? getDurabilityMultiplier(tier) : getDamageSpeedMultiplier(tier);
+        float multiplied = value * multiplier;
         if (tier < 0) {
             return (float) Math.floor(multiplied * 2.0) / 2.0f;
         } else {
@@ -43,9 +56,10 @@ public class ItemStackMixin {
         }
     }
 
-    private int applyTierRoundingInt(int value, int tier) {
+    private int applyTierRoundingInt(int value, int tier, boolean isDurability) {
         if (tier == 0) return value;
-        float multiplied = value * getTierMultiplier(tier);
+        float multiplier = isDurability ? getDurabilityMultiplier(tier) : getDamageSpeedMultiplier(tier);
+        float multiplied = value * multiplier;
         if (tier < 0) {
             return (int) Math.floor(multiplied);
         } else {
@@ -82,7 +96,7 @@ public class ItemStackMixin {
             float original = cir.getReturnValue();
             // Only modify if the tool is actually effective (speed > 1.0 usually means it's the right tool)
             // But we'll just apply it universally to base speed.
-            cir.setReturnValue(applyTierRounding(original, tier));
+            cir.setReturnValue(applyTierRounding(original, tier, false));
         }
     }
 
@@ -91,7 +105,7 @@ public class ItemStackMixin {
         int tier = getTier();
         if (tier != 0) {
             int original = cir.getReturnValue();
-            cir.setReturnValue(applyTierRoundingInt(original, tier));
+            cir.setReturnValue(applyTierRoundingInt(original, tier, true));
         }
     }
 
@@ -100,7 +114,7 @@ public class ItemStackMixin {
         int tier = getTier();
         if (tier != 0) {
             int original = cir.getReturnValue();
-            cir.setReturnValue(applyTierRoundingInt(original, tier));
+            cir.setReturnValue(applyTierRoundingInt(original, tier, false));
         }
     }
 }

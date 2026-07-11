@@ -29,12 +29,21 @@ public class OpenReforgingAnvilMessage implements NetworkMessage {
         Player player = context.player;
         Minecraft mc = Minecraft.getMinecraft();
         
-        // We will create the GUI and set the current window ID so that the client and server match
-        toolforging.client.GuiReforgingAnvil gui = new toolforging.client.GuiReforgingAnvil(
-            player.inventory, 
-            new net.minecraft.core.player.inventory.container.ContainerSimple("Reforging Anvil", 3)
-        );
+        // In single-player, onInteracted already set player.containerMenu to a
+        // MenuReforgingAnvil backed by the real TileEntity. Reuse it.
+        // In multiplayer, the server and client are different players, so we
+        // need to create a client-side menu with a dummy container.
+        toolforging.inventory.MenuReforgingAnvil menu;
+        if (player.containerMenu instanceof toolforging.inventory.MenuReforgingAnvil) {
+            menu = (toolforging.inventory.MenuReforgingAnvil) player.containerMenu;
+        } else {
+            toolforging.inventory.ContainerReforging anvilInventory = new toolforging.inventory.ContainerReforging("Reforging Anvil", 3);
+            menu = new toolforging.inventory.MenuReforgingAnvil(player.inventory, anvilInventory);
+        }
+        menu.containerId = this.windowId;
+        
+        toolforging.client.GuiReforgingAnvil gui = new toolforging.client.GuiReforgingAnvil(menu);
         mc.displayScreen(gui);
-        player.containerMenu.containerId = this.windowId;
+        player.containerMenu = menu;
     }
 }
