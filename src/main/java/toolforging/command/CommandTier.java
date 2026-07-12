@@ -35,8 +35,11 @@ public class CommandTier implements CommandManager.CommandRegistry {
                             }
                             
                             CompoundTag data = heldItem.getData();
+                            if (data == null) {
+                                data = new CompoundTag();
+                                heldItem.setData(data);
+                            }
                             data.putInt("toolforging:tier", tier);
-                            heldItem.setData(data);
                             
                             source.sendMessage("Applied tier " + tier + " to held item.");
                             return 1;

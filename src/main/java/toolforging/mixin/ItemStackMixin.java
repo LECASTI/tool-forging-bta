@@ -49,22 +49,26 @@ public class ItemStackMixin {
         if (tier == 0) return value;
         float multiplier = isDurability ? getDurabilityMultiplier(tier) : getDamageSpeedMultiplier(tier);
         float multiplied = value * multiplier;
+        float rounded;
         if (tier < 0) {
-            return (float) Math.floor(multiplied * 2.0) / 2.0f;
+            rounded = (float) Math.floor(multiplied * 2.0) / 2.0f;
         } else {
-            return (float) Math.ceil(multiplied * 2.0) / 2.0f;
+            rounded = (float) Math.ceil(multiplied * 2.0) / 2.0f;
         }
+        return Math.max(0.5f, rounded);
     }
 
     private int applyTierRoundingInt(int value, int tier, boolean isDurability) {
         if (tier == 0) return value;
         float multiplier = isDurability ? getDurabilityMultiplier(tier) : getDamageSpeedMultiplier(tier);
         float multiplied = value * multiplier;
+        int rounded;
         if (tier < 0) {
-            return (int) Math.floor(multiplied);
+            rounded = (int) Math.floor(multiplied);
         } else {
-            return (int) Math.ceil(multiplied);
+            rounded = (int) Math.ceil(multiplied);
         }
+        return Math.max(isDurability ? 1 : 0, rounded);
     }
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)

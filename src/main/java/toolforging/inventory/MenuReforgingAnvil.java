@@ -109,8 +109,12 @@ public class MenuReforgingAnvil extends MenuAbstract {
             if (requiredMaterial != -1 && material.itemID == requiredMaterial) {
                 net.minecraft.core.item.ItemStack output = tool.copy();
                 output.stackSize = 1;
-                // Mark as preview so the name renders as "??? <tool>" (handled by ItemStackMixin)
-                output.getData().putByte("toolforging:preview", (byte) 1);
+                com.mojang.nbt.tags.CompoundTag data = output.getData();
+                if (data == null) {
+                    data = new com.mojang.nbt.tags.CompoundTag();
+                    output.setData(data);
+                }
+                data.putByte("toolforging:preview", (byte) 1);
                 this.outputInventory.setItem(0, output);
                 return;
             }

@@ -22,12 +22,16 @@ public class SlotReforgingOutput extends Slot {
 
     @Override
     public void onTake(ItemStack stack) {
-        // Roll tier: equal weight across all 7 outcomes (-3 to +3)
-        int tier = ThreadLocalRandom.current().nextInt(7) - 3;
-        stack.getData().putInt("toolforging:tier", tier);
+        int tier = java.util.concurrent.ThreadLocalRandom.current().nextInt(7) - 3;
+        com.mojang.nbt.tags.CompoundTag data = stack.getData();
+        if (data == null) {
+            data = new com.mojang.nbt.tags.CompoundTag();
+            stack.setData(data);
+        }
+        data.putInt("toolforging:tier", tier);
         // Zero the preview flag rather than removing it — CompoundTag's remove API
         // varies across BTA versions; putByte(0) is safe and the mixin checks != 0.
-        stack.getData().putByte("toolforging:preview", (byte) 0);
+        data.putByte("toolforging:preview", (byte) 0);
 
         // Consume inputs
         this.forgeInventory.removeItem(0, 1);
