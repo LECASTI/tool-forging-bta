@@ -74,7 +74,7 @@ public class BlockLogicReforgingAnvil extends BlockLogic {
             for (int i = 0; i < anvil.getContainerSize(); ++i) {
                 net.minecraft.core.item.ItemStack stack = anvil.getItem(i);
                 if (stack != null) {
-                    world.dropItem(pos.x(), pos.y(), pos.z(), stack);
+                    world.dropItem(pos, stack);
                 }
             }
         }

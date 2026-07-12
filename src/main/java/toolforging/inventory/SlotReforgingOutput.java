@@ -3,7 +3,6 @@ package toolforging.inventory;
 import net.minecraft.core.player.inventory.slot.Slot;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.item.ItemStack;
-import java.util.concurrent.ThreadLocalRandom;
 import toolforging.block.entity.TileEntityReforgingAnvil;
 
 public class SlotReforgingOutput extends Slot {

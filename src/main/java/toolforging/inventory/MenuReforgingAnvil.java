@@ -1,7 +1,6 @@
 package toolforging.inventory;
 
 import net.minecraft.core.player.inventory.menu.MenuAbstract;
-import net.minecraft.core.player.inventory.InventorySorter;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.player.inventory.slot.Slot;
 import net.minecraft.core.entity.player.Player;
