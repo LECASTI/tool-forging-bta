@@ -21,7 +21,7 @@ public class ToolForgingMod implements ModInitializer, GameStartEntrypoint, Reci
 		int blockId = 2000; // Hardcoded ID for now
 		reforgingAnvil = new turniplabs.halplibe.helper.BlockBuilder(MOD_ID)
 			.setHardness(5.0f)
-			.setResistance(2000.0f)
+			.setResistance(90.0f) // 3x stronger than cobblestone (30), weaker than obsidian (~2000).
 			.setTags(net.minecraft.core.block.tag.BlockTags.MINEABLE_BY_PICKAXE)
 			.setTileEntity(toolforging.block.entity.TileEntityReforgingAnvil::new)
 			.build("reforging.anvil", blockId, b -> new toolforging.block.BlockLogicReforgingAnvil(b, net.minecraft.core.block.material.Materials.METAL));
@@ -41,9 +41,17 @@ public class ToolForgingMod implements ModInitializer, GameStartEntrypoint, Reci
 
 	@Override
 	public void onRecipesReady() {
+		// Shape:
+		//   I I I   (iron ingots)
+		//   S C S   (any stone, chainlink, any stone)
+		//   S D S   (any stone, diamond, any stone)
+		// Chainlink confirmed as item ID 16503 via F3+H; using itemsList array since no Items.CHAINLINK exists.
 		turniplabs.halplibe.helper.RecipeBuilder.Shaped(MOD_ID)
-			.setShape("LL", "LL")
-			.addInput('L', "minecraft:logs")
+			.setShape("III", "SCS", "SDS")
+			.addInput('I', net.minecraft.core.item.Items.INGOT_IRON)
+			.addInput('C', net.minecraft.core.item.Items.CHAINLINK) // chainlink (confirmed ID 16503)
+			.addInput('D', net.minecraft.core.item.Items.DIAMOND)
+			.addInput('S', "minecraft:stones") // any stone variant (including BTA stone variants)
 			.create("reforging_anvil", new net.minecraft.core.item.ItemStack(reforgingAnvil));
 	}
 

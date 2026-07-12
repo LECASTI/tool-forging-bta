@@ -37,7 +37,8 @@ public class OpenReforgingAnvilMessage implements NetworkMessage {
         if (player.containerMenu instanceof toolforging.inventory.MenuReforgingAnvil) {
             menu = (toolforging.inventory.MenuReforgingAnvil) player.containerMenu;
         } else {
-            toolforging.inventory.ContainerReforging anvilInventory = new toolforging.inventory.ContainerReforging("Reforging Anvil", 3);
+            net.minecraft.core.player.inventory.container.ContainerSimple anvilInventory =
+                new net.minecraft.core.player.inventory.container.ContainerSimple("Reforging Anvil", 3);
             menu = new toolforging.inventory.MenuReforgingAnvil(player.inventory, anvilInventory);
         }
         menu.containerId = this.windowId;

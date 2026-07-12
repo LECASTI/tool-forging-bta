@@ -12,10 +12,13 @@ public class ToolForgingClient implements ModelEntrypoint {
 
     @Override
     public void initBlockModels(BlockModelDispatcher dispatcher) {
-        // Just use a standard iron block texture for now!
+        // ponytail: Load model from json file and register as BlockModelGeneric
         turniplabs.halplibe.helper.ModelHelper.setBlockModel(
             ToolForgingMod.reforgingAnvil, 
-            () -> new BlockModelStandard<>(ToolForgingMod.reforgingAnvil).withTextures("minecraft:block/block_iron")
+            () -> new net.minecraft.client.render.block.model.generic.BlockModelGeneric<>(
+                ToolForgingMod.reforgingAnvil,
+                net.minecraft.client.render.block.model.BlockModelDispatcher.loadDataModel("toolforging:block/reforging_anvil_block")
+            )
         );
     }
 

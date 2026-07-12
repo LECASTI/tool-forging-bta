@@ -21,7 +21,7 @@ public class GuiReforgingAnvil extends ScreenContainerAbstract {
     @Override
     protected void drawGuiContainerBackgroundLayer(float f) {
         GLRenderer.setColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int textureId = this.mc.textureManager.loadTexture("/gui/furnace.png").id();
+        int textureId = this.mc.textureManager.loadTexture("/assets/toolforging/gui/reforging_anvil_GUI.png").id();
         this.mc.textureManager.bindTexture(textureId);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;

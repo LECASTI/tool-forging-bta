@@ -55,11 +55,14 @@ public class MenuReforgingAnvil extends MenuAbstract {
         for (int col = 0; col < 9; ++col) {
             this.addSlot(new Slot(inventoryPlayer, col, 8 + col * 18, 142));
         }
+
+        // Populate the output slot immediately if valid items are already present
+        this.updateReforgeOutput();
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return true; // We don't have a specific block entity to check distance against yet, so returning true is fine for now
+        return this.inventory.stillValid(player);
     }
 
     @Override
@@ -100,12 +103,14 @@ public class MenuReforgingAnvil extends MenuAbstract {
     private void updateReforgeOutput() {
         net.minecraft.core.item.ItemStack tool = this.inventory.getItem(0);
         net.minecraft.core.item.ItemStack material = this.inventory.getItem(1);
-        
+
         if (tool != null && material != null) {
             int requiredMaterial = getRequiredMaterialId(tool);
             if (requiredMaterial != -1 && material.itemID == requiredMaterial) {
                 net.minecraft.core.item.ItemStack output = tool.copy();
                 output.stackSize = 1;
+                // Mark as preview so the name renders as "??? <tool>" (handled by ItemStackMixin)
+                output.getData().putByte("toolforging:preview", (byte) 1);
                 this.outputInventory.setItem(0, output);
                 return;
             }

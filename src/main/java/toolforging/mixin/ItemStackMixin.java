@@ -69,6 +69,16 @@ public class ItemStackMixin {
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     private void addTierToName(CallbackInfoReturnable<String> cir) {
+        ItemStack self = (ItemStack) (Object) this;
+        com.mojang.nbt.tags.CompoundTag data = self.getData();
+
+        // Preview slot: show "??? <tool name>" in white to hint at tool type without revealing tier
+        if (data != null && data.containsKey("toolforging:preview") && data.getByte("toolforging:preview") != 0) {
+            String baseName = self.getItem() != null ? self.getItem().getTranslatedName(self) : cir.getReturnValue();
+            cir.setReturnValue(net.minecraft.core.net.command.TextFormatting.WHITE + "??? " + baseName);
+            return;
+        }
+
         int tier = getTier();
         if (tier != 0) {
             String prefix = "";
