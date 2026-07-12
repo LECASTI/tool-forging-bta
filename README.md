@@ -22,7 +22,12 @@ The tiers offer stat multipliers (Durability, Damage, Mining Speed):
 * Update GUI textures and add a button for Reforging (instead of using the furnace result slot behavior).
 
 ## Contribution Flow
-* **`8.0` (Main Branch)**: Stable releases and public builds. Maintained directly by the owner. No direct commits from the public.
-* **`review`**: Pull requests from the public should target this branch. All PRs will be reviewed here before merging into `8.0`.
+* **`master` (Main Branch)**: Stable releases and public builds. Maintained directly by the owner. No direct commits from the public.
+* **`review`**: Pull requests from the public should target this branch. All PRs will be reviewed here before merging into `master`.
 * **`dev`**: Private branch for internal development and testing. Direct commits or PRs are not accepted.
 * **Local Branches**: Anyone can create local or custom feature branches for testing or development. Contributions should be submitted as PRs targeting the `review` branch.
+
+## Credits & Attributions
+* **Turnip Labs**: Creators of the Better Than Adventure (BTA) mod and the **Halplibe** library.
+* **BTA Reference Mods**: This mod references `dyables` and `improvedsigns` for structure and API usage.
+* **License Compliance**: Turnip Labs' `halplibe`, `dyables`, and `improvedsigns` are licensed under the CC0-1.0 (Public Domain) license. We thank them for their open-source contributions.
