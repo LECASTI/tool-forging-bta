@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "toolforging",
+	"version": "${version}",
+	"name": "Tool Forging",
+	"description": "Terraria-style Reforging mechanic for BTA.",
+	"authors": [
+		"Tool Forging Team"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"icon": "icon.png",
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"toolforging.ToolForgingMod"
+		],
+		"beforeGameStart": [
+			"toolforging.ToolForgingMod"
+		],
+		"afterGameStart": [
+			"toolforging.ToolForgingMod"
+		],
+		"recipesReady": [
+			"toolforging.ToolForgingMod"
+		],
+		"initModels": [
+			"toolforging.ToolForgingClient"
+		]
+	},
+	"mixins": [
+		"toolforging.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${fabricloader}",
+		"minecraft": "*",
+		"java": ">=${java}"
+	},
+	"suggests": {
+		"modmenu": ">=${modmenu}"
+	}
+}

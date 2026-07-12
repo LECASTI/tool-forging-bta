@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "toolforging.mixin",
+  "compatibilityLevel": "JAVA_${java}",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "ItemStackMixin"
+  ],
+  "client": []
+}
