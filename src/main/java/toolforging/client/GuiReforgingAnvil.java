@@ -1,8 +1,6 @@
 package toolforging.client;
 
 import net.minecraft.client.gui.container.ScreenContainerAbstract;
-import net.minecraft.core.player.inventory.container.ContainerInventory;
-import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.client.render.renderer.GLRenderer;
 import toolforging.inventory.MenuReforgingAnvil;
 

@@ -2,7 +2,6 @@ package toolforging.network;
 
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
-import turniplabs.halplibe.helper.network.NetworkMessage.NetworkContext;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.client.Minecraft;
 
