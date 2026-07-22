@@ -4,8 +4,12 @@ import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.player.inventory.slot.Slot;
 import net.minecraft.core.entity.player.Player;
+import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 
 public class MenuReforgingAnvil extends MenuAbstract {
+
+    private static final RecipeSymbol PLANKS_GROUP = new RecipeSymbol("minecraft:planks");
+    private static final RecipeSymbol COBBLESTONES_GROUP = new RecipeSymbol("minecraft:cobblestones");
 
     private Container inventory;
     private net.minecraft.core.player.inventory.container.ContainerResult outputInventory;
@@ -20,7 +24,7 @@ public class MenuReforgingAnvil extends MenuAbstract {
         this.addSlot(new net.minecraft.core.player.inventory.slot.Slot(inventory, 0, 56, 17) {
             @Override
             public boolean mayPlace(net.minecraft.core.item.ItemStack stack) {
-                return getRequiredMaterialId(stack) != -1;
+                return isValidTool(stack);
             }
         });
         
@@ -28,10 +32,10 @@ public class MenuReforgingAnvil extends MenuAbstract {
         this.addSlot(new net.minecraft.core.player.inventory.slot.Slot(inventory, 1, 56, 53) {
             @Override
             public boolean mayPlace(net.minecraft.core.item.ItemStack stack) {
-                if (stack == null) return false;
+                if (stack == null || stack.getItem() == null) return false;
                 int id = stack.itemID;
-                return id == net.minecraft.core.block.Blocks.PLANKS_OAK.id() ||
-                       id == net.minecraft.core.block.Blocks.COBBLE_STONE.id() ||
+                return PLANKS_GROUP.matches(stack) ||
+                       COBBLESTONES_GROUP.matches(stack) ||
                        id == net.minecraft.core.item.Items.INGOT_IRON.id ||
                        id == net.minecraft.core.item.Items.INGOT_GOLD.id ||
                        id == net.minecraft.core.item.Items.DIAMOND.id ||
@@ -104,8 +108,7 @@ public class MenuReforgingAnvil extends MenuAbstract {
         net.minecraft.core.item.ItemStack material = this.inventory.getItem(1);
 
         if (tool != null && material != null) {
-            int requiredMaterial = getRequiredMaterialId(tool);
-            if (requiredMaterial != -1 && material.itemID == requiredMaterial) {
+            if (isValidMaterialForTool(tool, material)) {
                 net.minecraft.core.item.ItemStack output = tool.copy();
                 output.stackSize = 1;
                 com.mojang.nbt.tags.CompoundTag data = output.getData();
@@ -121,28 +124,38 @@ public class MenuReforgingAnvil extends MenuAbstract {
         this.outputInventory.setItem(0, null);
     }
 
-    private int getRequiredMaterialId(net.minecraft.core.item.ItemStack tool) {
-        if (tool == null || tool.getItem() == null) return -1;
+    private boolean isValidTool(net.minecraft.core.item.ItemStack tool) {
+        if (tool == null || tool.getItem() == null) return false;
         String name = tool.getItem().getKey().toLowerCase();
-        // Ensure it is one of the valid tools
-        boolean isValidTool = tool.getItem() instanceof net.minecraft.core.item.tool.ItemTool 
+        return tool.getItem() instanceof net.minecraft.core.item.tool.ItemTool 
             || tool.getItem() instanceof net.minecraft.core.item.tool.ItemToolSword 
             || name.contains("bow") 
             || name.contains("handcannon") 
             || name.contains("hand_cannon")
             || name.contains("fishing");
-        if (!isValidTool) return -1;
+    }
+
+    private boolean isValidMaterialForTool(net.minecraft.core.item.ItemStack tool, net.minecraft.core.item.ItemStack material) {
+        if (!isValidTool(tool) || material == null || material.getItem() == null) return false;
         
-        if (name.contains("wood")) return net.minecraft.core.block.Blocks.PLANKS_OAK.id();
-        if (name.contains("stone")) return net.minecraft.core.block.Blocks.COBBLE_STONE.id();
-        if (name.contains("iron")) return net.minecraft.core.item.Items.INGOT_IRON.id;
-        if (name.contains("gold")) return net.minecraft.core.item.Items.INGOT_GOLD.id;
-        if (name.contains("diamond")) return net.minecraft.core.item.Items.DIAMOND.id;
-        if (name.contains("steel")) return net.minecraft.core.item.Items.INGOT_STEEL.id;
-        if (name.contains("bow") || name.contains("fishing")) return net.minecraft.core.item.Items.STRING.id;
-        if (name.contains("handcannon") || name.contains("hand_cannon")) return net.minecraft.core.item.Items.INGOT_STEEL.id;
+        String toolName = tool.getItem().getKey().toLowerCase();
+        String matName = material.getItem().getKey().toLowerCase();
+        int matId = material.itemID;
+
+        if (toolName.contains("wood")) {
+            return matId == net.minecraft.core.block.Blocks.PLANKS_OAK.id() || PLANKS_GROUP.matches(material);
+        }
+        if (toolName.contains("stone")) {
+            return COBBLESTONES_GROUP.matches(material);
+        }
+        if (toolName.contains("iron")) return matId == net.minecraft.core.item.Items.INGOT_IRON.id;
+        if (toolName.contains("gold")) return matId == net.minecraft.core.item.Items.INGOT_GOLD.id;
+        if (toolName.contains("diamond")) return matId == net.minecraft.core.item.Items.DIAMOND.id;
+        if (toolName.contains("steel")) return matId == net.minecraft.core.item.Items.INGOT_STEEL.id;
+        if (toolName.contains("bow") || toolName.contains("fishing")) return matId == net.minecraft.core.item.Items.STRING.id;
+        if (toolName.contains("handcannon") || toolName.contains("hand_cannon")) return matId == net.minecraft.core.item.Items.INGOT_STEEL.id;
         
-        return -1; // Unknown or unsupported
+        return false;
     }
 
 
