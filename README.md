@@ -31,3 +31,13 @@ The tiers offer stat multipliers (Durability, Damage, Mining Speed):
 * **Turnip Labs**: Creators of the Better Than Adventure (BTA) mod and the **Halplibe** library.
 * **BTA Reference Mods**: This mod references `dyables` and `improvedsigns` for structure and API usage.
 * **License Compliance**: Turnip Labs' `halplibe`, `dyables`, and `improvedsigns` are licensed under the CC0-1.0 (Public Domain) license. We thank them for their open-source contributions.
+
+## Building the Mod Icon
+If you update the placeholder anvil textures and need to regenerate the 3D isometric `icon.png`, you can run the following ImageMagick commands from the `src/main/resources/assets/toolforging/textures/block` directory. *(Note: This process only applies to the current placeholder 2D textures, and will eventually be cycled out when a proper 3D block model is implemented.)*
+
+```bash
+convert reforging_anvil_up.png -scale 1024x1024 -virtual-pixel transparent -set option:distort:viewport 1140x1140+0+0 -distort Affine "0,0 570,0 1024,0 1082,256 0,1024 58,256" /tmp/top.png
+convert reforging_anvil_north.png -scale 1024x1024 -virtual-pixel transparent -set option:distort:viewport 1140x1140+0+0 -distort Affine "0,0 58,256 1024,0 570,512 0,1024 58,883" /tmp/left.png
+convert reforging_anvil_east.png -scale 1024x1024 -virtual-pixel transparent -set option:distort:viewport 1140x1140+0+0 -distort Affine "0,0 570,512 1024,0 1082,256 0,1024 570,1139" /tmp/right.png
+convert -size 1140x1140 xc:none /tmp/top.png -geometry +0+0 -composite /tmp/left.png -geometry +0+0 -composite /tmp/right.png -geometry +0+0 -composite ../../../../../icon.png
+```
