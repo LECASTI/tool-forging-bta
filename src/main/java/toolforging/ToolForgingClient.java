@@ -13,9 +13,9 @@ public class ToolForgingClient implements ModelEntrypoint {
     @Override
     public void initBlockModels(BlockModelDispatcher dispatcher) {
         // ponytail: Load model from json file and register as BlockModelGeneric
-        turniplabs.halplibe.helper.ModelHelper.setBlockModel(
+        dispatcher.addDispatch(
             ToolForgingMod.reforgingAnvil, 
-            () -> new net.minecraft.client.render.block.model.generic.BlockModelGeneric<>(
+            new net.minecraft.client.render.block.model.generic.BlockModelGeneric<>(
                 ToolForgingMod.reforgingAnvil,
                 net.minecraft.client.render.block.model.BlockModelDispatcher.loadDataModel("toolforging:block/reforging_anvil_block")
             )
