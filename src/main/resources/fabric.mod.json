@@ -3,9 +3,10 @@
 	"id": "toolforging",
 	"version": "${version}",
 	"name": "Tool Forging",
-	"description": "Terraria-style Reforging mechanic for BTA.",
+	"description": "Terraria-style Reforging mechanic for BTA. By WorkerDrone16",
 	"authors": [
-		"Tool Forging Team"
+		"WorkerDrone16",
+		"Assisted by Antigravity IDE"
 	],
 	"contact": {
 		"homepage": "",
