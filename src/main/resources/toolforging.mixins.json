@@ -8,5 +8,8 @@
   "mixins": [
     "ItemStackMixin"
   ],
-  "client": []
+  "client": [
+    "MixinGuidebookSections",
+    "MixinGuidebookPageManager"
+  ]
 }

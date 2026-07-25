@@ -3,7 +3,16 @@ package toolforging;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.minecraft.core.data.registry.Registries;
+import net.minecraft.core.data.registry.recipe.RecipeGroup;
+import net.minecraft.core.data.registry.recipe.RecipeSymbol;
+import net.minecraft.core.data.registry.recipe.entry.RecipeEntryCrafting;
+import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryCategory;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
+import turniplabs.halplibe.helper.CreativeHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
@@ -36,27 +45,31 @@ public class ToolForgingMod implements ModInitializer, GameStartEntrypoint, Reci
 
 	@Override
 	public void afterGameStart() {
-
+		CreativeInventoryRegistry.INSTANCE.register(reforgingAnvil, new CreativeInventoryPlacement.Category(CreativeInventoryCategory.WORKBENCHES));
 	}
 
 	@Override
 	public void onRecipesReady() {
+		// 1. Crafting Recipe for Reforging Anvil
 		// Shape:
 		//   I I I   (iron ingots)
 		//   S C S   (any stone, chainlink, any stone)
 		//   S D S   (any stone, diamond, any stone)
-		// Chainlink confirmed as item ID 16503 via F3+H; using itemsList array since no Items.CHAINLINK exists.
 		turniplabs.halplibe.helper.RecipeBuilder.Shaped(MOD_ID)
 			.setShape("III", "SCS", "SDS")
 			.addInput('I', net.minecraft.core.item.Items.INGOT_IRON)
-			.addInput('C', net.minecraft.core.item.Items.CHAINLINK) // chainlink (confirmed ID 16503)
+			.addInput('C', net.minecraft.core.item.Items.CHAINLINK)
 			.addInput('D', net.minecraft.core.item.Items.DIAMOND)
-			.addInput('S', "minecraft:stones") // any stone variant (including BTA stone variants)
+			.addInput('S', "minecraft:stones")
 			.create("reforging_anvil", new net.minecraft.core.item.ItemStack(reforgingAnvil));
+
+		// 2. Register Reforging Anvil Recipe Booklet group and entries
+		toolforging.recipe.ReforgingRecipeRegistry.registerRecipes();
 	}
 
 	@Override
 	public void initNamespaces() {
-
+		net.minecraft.core.data.registry.recipe.RecipeNamespace modNamespace = new net.minecraft.core.data.registry.recipe.RecipeNamespace();
+		Registries.RECIPES.register(MOD_ID, modNamespace);
 	}
 }

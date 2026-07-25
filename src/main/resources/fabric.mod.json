@@ -22,10 +22,12 @@
 			"toolforging.ToolForgingMod"
 		],
 		"afterGameStart": [
-			"toolforging.ToolForgingMod"
+			"toolforging.ToolForgingMod",
+			"toolforging.ToolForgingClient"
 		],
 		"recipesReady": [
-			"toolforging.ToolForgingMod"
+			"toolforging.ToolForgingMod",
+			"toolforging.ToolForgingClient"
 		],
 		"initModels": [
 			"toolforging.ToolForgingClient"
