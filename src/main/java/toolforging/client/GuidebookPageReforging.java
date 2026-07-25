@@ -51,7 +51,7 @@ public class GuidebookPageReforging extends GuidebookPage {
             RecipeSymbol outputSymbol = new RecipeSymbol(recipe.getOutput());
 
             int baseX = 40;
-            int baseY = 28 + (i * 29); // 29px step (11px clear vertical gap between row slots)
+            int baseY = 28 + (i * 35); // 29px step (11px clear vertical gap between row slots)
 
             // Slot 0: Input Tool
             pageSlots.add(new SlotGuidebook(i * 3 + 0, baseX, baseY, toolInput, false, recipe));
@@ -91,7 +91,7 @@ public class GuidebookPageReforging extends GuidebookPage {
 
         for (int i = 0; i < recipes.size(); i++) {
             int baseX = 40;
-            int baseY = 28 + (i * 29);
+            int baseY = 28 + (i * 35);
 
             drawStringCenteredNoShadow(fontRenderer, "+", x + baseX + 22, y + baseY + 4, 0x606060);
             drawStringCenteredNoShadow(fontRenderer, "->", x + baseX + 52, y + baseY + 4, 0x606060);
